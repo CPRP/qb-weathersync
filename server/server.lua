@@ -306,6 +306,27 @@ CreateThread(function()
     end
 end)
 
+--- ADDED TO CREATE TSUNAMI EFFECT BEFORE EACH RESTART ---
+AddEventHandler('txAdmin:events:scheduledRestart', function(eventData) -- Tsunami Weather Fuckery
+    if eventData.secondsRemaining == 900 then -- 15 Minutes Remaining
+        print("15 minutes before restart... Gradually changing weather to thunder!")
+        setDynamicWeather(false)
+        setWeather("OVERCAST")
+        TriggerEvent('qb-weathersync:server:RequestStateSync')
+    elseif eventData.secondsRemaining == 600 then -- 10 Minutes Remaining
+        setWeather("RAIN")
+        TriggerEvent('qb-weathersync:server:RequestStateSync')
+    elseif eventData.secondsRemaining == 300 then -- 5 Minutes Remaining
+        setWeather("THUNDER")
+        TriggerEvent('qb-weathersync:server:RequestStateSync')
+    elseif eventData.secondsRemaining == 60 then -- 1 Minute Remaining
+        setBlackout(true)
+        setWeather("HALLOWEEN")
+        TriggerEvent('qb-weathersync:server:RequestStateSync')
+        setDynamicWeather(true)
+    end
+end)
+
 -- EXPORTS
 exports('nextWeatherStage', nextWeatherStage)
 exports('setWeather', setWeather)
